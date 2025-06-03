@@ -2,10 +2,10 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 
 use path_absolutize::*;
+use swc_core::common::errors::HANDLER; // use swc_core::plugin::errors::HANDLER;
 use swc_core::ecma::ast::{Expr, ImportDecl, ImportSpecifier, Lit, MemberProp};
 use swc_core::ecma::atoms::Atom;
 use swc_core::ecma::visit::{VisitMut, VisitMutWith};
-use swc_core::plugin::errors::HANDLER;
 
 use crate::generic_names::{Generator, Options};
 use crate::Config;
