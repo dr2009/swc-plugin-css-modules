@@ -22,15 +22,16 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
+      contents: read # Recommended for actions/setup-node
+      id-token: write # Required for OIDC
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           token: ${{ secrets.DEVTOOLS_GITHUB_TOKEN }}
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version-file: ".nvmrc"
           cache: "npm"
           always-auth: true
           registry-url: "https://registry.npmjs.org"
@@ -40,6 +41,7 @@ jobs:
           rustup target add wasm32-wasip1
 
       - run: npm run test
+
       - run: npm run build
 
       - name: Set Git credentials
@@ -63,6 +65,4 @@ jobs:
           tags: true
 
       - name: Publishing release
-        run: npm publish --non-interactive
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPMJS_PUBLISH_TOKEN }}
+        run: npm publish
